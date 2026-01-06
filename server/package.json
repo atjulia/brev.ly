@@ -1,0 +1,32 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch --env-file .env src/infra/http/server.ts",
+    "test": "dotenv -e .env.test -- vitest run",
+    "test:watch": "dotenv -e .env.test -- vitest",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "db:migrate:test": "dotenv -e .env.test -- drizzle-kit migrate",
+    "pretest": "pnpm run db:migrate:test",
+    "pretest:watch": "pnpm run db:migrate:test",
+    "build": "tsup-node"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.2.0",
+    "fastify": "^5.6.2",
+    "fastify-type-provider-zod": "^6.1.0",
+    "zod": "^4.3.5"
+  }
+}
