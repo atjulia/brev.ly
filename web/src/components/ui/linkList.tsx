@@ -1,3 +1,5 @@
+import { Link } from 'lucide-react'
+
 interface LinkListProps {
   links?: string[]
 }
@@ -5,7 +7,8 @@ interface LinkListProps {
 export function LinkList({ links = [] }: LinkListProps) {
   if (links.length === 0) {
     return (
-      <div className="text-center py-8">
+      <div className="text-center flex flex-col justify-center items-center py-8">
+        <Link className="mb-2 text-gray-400" size={24} />
         <p className="text-gray-500 text-sm">Nenhum link encurtado ainda</p>
       </div>
     )

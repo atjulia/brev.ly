@@ -1,9 +1,23 @@
+import { TriangleAlert } from 'lucide-react'
+import { useMemo } from 'react'
+
 interface InputAliasProps {
   value: string
   onChange: (value: string) => void
+  prefix?: string
+  error?: string
 }
 
-export function InputAlias({ value, onChange }: InputAliasProps) {
+export function InputAlias({
+  value,
+  onChange,
+  prefix = 'brev.ly/',
+  error,
+}: InputAliasProps) {
+  const prefixWidth = useMemo(() => {
+    return `${prefix.length * 8 + 12}px`
+  }, [prefix])
+
   return (
     <div>
       <label
@@ -12,15 +26,33 @@ export function InputAlias({ value, onChange }: InputAliasProps) {
       >
         Link encurtado
       </label>
-      <input
-        type="text"
-        id="alias"
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        placeholder="meu-link"
-        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        required
-      />
+
+      <div className="relative">
+        <span className="absolute inset-y-0 left-3 flex items-center text-sm text-gray-400 pointer-events-none">
+          {prefix}
+        </span>
+
+        <input
+          id="alias"
+          type="text"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          style={{ paddingLeft: prefixWidth }}
+          className={`w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2
+            ${
+              error
+                ? 'border-red-500 focus:ring-red-500'
+                : 'border-gray-300 focus:ring-blue-500'
+            }`}
+        />
+      </div>
+
+      {error && (
+        <p className="mt-1 flex items-center text-sm text-red-600">
+          <TriangleAlert className="mr-1" />
+          {error}
+        </p>
+      )}
     </div>
   )
 }

@@ -1,9 +1,12 @@
+import { TriangleAlert } from 'lucide-react'
+
 interface InputUrlProps {
   value: string
   onChange: (value: string) => void
+  error?: string
 }
 
-export function InputUrl({ value, onChange }: InputUrlProps) {
+export function InputUrl({ value, onChange, error }: InputUrlProps) {
   return (
     <div>
       <label
@@ -12,15 +15,27 @@ export function InputUrl({ value, onChange }: InputUrlProps) {
       >
         Link original
       </label>
+
       <input
         type="url"
         id="url"
         value={value}
         onChange={e => onChange(e.target.value)}
-        placeholder="www.exemplo.com.br"
-        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        required
+        placeholder="https://www.exemplo.com.br"
+        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2
+          ${
+            error
+              ? 'border-red-500 focus:ring-red-500'
+              : 'border-gray-300 focus:ring-blue-500'
+          }`}
       />
+
+      {error && (
+        <p className="mt-1 flex items-center text-sm text-red-600">
+          <TriangleAlert className="mr-1" />
+          {error}
+        </p>
+      )}
     </div>
   )
 }
