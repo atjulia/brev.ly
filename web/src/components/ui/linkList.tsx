@@ -1,5 +1,5 @@
 interface LinkListProps {
-  links?: string[];
+  links?: string[]
 }
 
 export function LinkList({ links = [] }: LinkListProps) {
@@ -8,13 +8,13 @@ export function LinkList({ links = [] }: LinkListProps) {
       <div className="text-center py-8">
         <p className="text-gray-500 text-sm">Nenhum link encurtado ainda</p>
       </div>
-    );
+    )
   }
 
   return (
     <div className="space-y-2">
       {links.map((link, index) => (
-        <div 
+        <div
           key={index}
           className="bg-white p-3 rounded-md border border-gray-200 shadow-sm"
         >
@@ -22,5 +22,5 @@ export function LinkList({ links = [] }: LinkListProps) {
         </div>
       ))}
     </div>
-  );
+  )
 }

@@ -1,11 +1,11 @@
-import { LinkList } from "./ui/LinkList";
+import { LinkList } from './ui/linkList'
 
 interface HistoryCardProps {
-  className?: string;
+  className?: string
 }
 
-export function HistoryCard({ className = "" }: HistoryCardProps) {
-    const links: string[] = [];
+export function HistoryCard({ className = '' }: HistoryCardProps) {
+  const links: string[] = []
   return (
     <div
       className={`bg-gray-50 rounded-lg p-4 sm:p-6 w-full max-w-xl ${className}`}
@@ -22,7 +22,7 @@ export function HistoryCard({ className = "" }: HistoryCardProps) {
         <LinkList links={links} />
       </div>
     </div>
-  );
+  )
 }
 
-export default HistoryCard;
+export default HistoryCard

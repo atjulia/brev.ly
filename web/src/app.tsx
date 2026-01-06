@@ -1,5 +1,5 @@
-import HistoryCard from "./components/historyCard";
-import { NewLinkCard } from "./components/newLinkCard";
+import HistoryCard from './components/historyCard'
+import { NewLinkCard } from './components/newLinkCard'
 
 export function App() {
   return (
@@ -9,5 +9,5 @@ export function App() {
         <HistoryCard />
       </div>
     </main>
-  );
+  )
 }
