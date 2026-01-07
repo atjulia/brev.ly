@@ -1,6 +1,6 @@
 import { createLink } from "@/app/functions/create-link";
+import { isRight, unwrapEither } from "@/infra/shared /either";
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { url } from "node:inspector";
 import z from "zod";
 
 export const createLinkRoute: FastifyPluginAsyncZod = async (server) => {
@@ -15,18 +15,29 @@ export const createLinkRoute: FastifyPluginAsyncZod = async (server) => {
         }),
         response: {
           201: z.object({ urlId: z.string() }),
-          409: z
-            .object({ message: z.string() })
-            .describe("Alias already in use"),
+          400: z.object({ message: z.string() }),
+          409: z.object({ message: z.string() }),
         },
       },
     },
     async (request, reply) => {
-      await createLink({
+      const result = await createLink({
         url: request.body.url,
         shortCode: request.body.alias,
       });
-      return reply.status(201).send({ urlId: "example-id" });
+
+      if (isRight(result)) {
+        return reply.status(201).send();
+      }
+
+      const error = unwrapEither(result);
+
+      switch (error.constructor.name) {
+        case "InvalidInput":
+          return reply.status(400).send({ message: error.message });
+        case "AliasAlreadyInUse":
+          return reply.status(409).send({ message: error.message });
+      }
     }
   );
 };
