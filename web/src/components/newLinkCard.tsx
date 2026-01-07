@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
 import { InputUrl } from './ui/inputUrl'
 import { InputAlias } from './ui/inputAlias'
+import { useLinks } from '../store/create'
 
-interface NewLinkCardProps {
-  onSubmit?: (url: string, alias: string) => void
-  className?: string
-}
-
-export function NewLinkCard({ onSubmit }: NewLinkCardProps) {
+export function NewLinkCard() {
   const [url, setUrl] = useState('')
   const [alias, setAlias] = useState('')
   const [errors, setErrors] = useState<{
     url?: string
     alias?: string
   }>({})
+
+  const { addLink } = useLinks()
 
   const isValidUrl = (value: string) => {
     try {
@@ -48,7 +46,11 @@ export function NewLinkCard({ onSubmit }: NewLinkCardProps) {
     }
 
     setErrors({})
-    onSubmit?.(url, alias)
+
+    addLink(url, alias)
+
+    setUrl('')
+    setAlias('')
   }
 
   return (
