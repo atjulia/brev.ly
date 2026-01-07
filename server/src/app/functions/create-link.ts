@@ -2,28 +2,61 @@ import { db } from "@/infra/db";
 import { schema } from "@/infra/db/schemas";
 import { z } from "zod";
 import { InvalidInput } from "./errors/invalid-input";
+import { AliasAlreadyInUse } from "./errors/alias-already-use";
 import { Either, makeLeft, makeRight } from "@/infra/shared/either";
+import { eq } from "drizzle-orm";
 
 const createLinkInput = z.object({
-  url: z.string(),
-  shortCode: z.string(),
+  url: z.string().url("URL deve ser válida"),
+  shortCode: z.string().min(1, "ShortCode é obrigatório"),
 });
 
 type CreateLinkInput = z.input<typeof createLinkInput>;
 
+interface CreateLinkResponse {
+  id: string;
+  originalUrl: string;
+  shortUrl: string;
+  alias: string;
+  createdAt: string;
+}
+
 export async function createLink(
   input: CreateLinkInput
-): Promise<Either<InvalidInput, { url: string }>> {
-  const { url, shortCode } = createLinkInput.parse(input);
+): Promise<Either<InvalidInput | AliasAlreadyInUse, CreateLinkResponse>> {
+  const parseResult = createLinkInput.safeParse(input);
 
-  if (!url || !shortCode) {
+  if (!parseResult.success) {
     return makeLeft(new InvalidInput());
   }
 
-  await db.insert(schema.links).values({
-    url,
-    shortCode,
-  });
+  const { url, shortCode } = parseResult.data;
 
-  return makeRight({ url });
+  const existingLink = await db
+    .select()
+    .from(schema.links)
+    .where(eq(schema.links.shortCode, shortCode))
+    .limit(1);
+
+  if (existingLink.length > 0) {
+    return makeLeft(new AliasAlreadyInUse());
+  }
+
+  const [createdLink] = await db
+    .insert(schema.links)
+    .values({
+      url,
+      shortCode,
+    })
+    .returning();
+
+  return makeRight({
+    id: createdLink.id,
+    originalUrl: createdLink.url,
+    shortUrl: `${process.env.BASE_URL || "http://localhost:3333"}/${
+      createdLink.shortCode
+    }`,
+    alias: createdLink.shortCode,
+    createdAt: createdLink.createdAt.toISOString(),
+  });
 }
