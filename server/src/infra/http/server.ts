@@ -12,6 +12,7 @@ import fastifySwaggerUi from "@fastify/swagger-ui";
 import { redirectLinkRoute } from "./routes/redirect-link";
 import { deleteLinkRoute } from "./routes/delete-link";
 import { getLinksRoute } from "./routes/get-link";
+import { exportLinksRoute } from "./routes/export-link";
 
 const server = fastify();
 
@@ -52,6 +53,7 @@ server.register(createLinkRoute);
 server.register(redirectLinkRoute);
 server.register(deleteLinkRoute);
 server.register(getLinksRoute);
+server.register(exportLinksRoute);
 
 server
   .listen({

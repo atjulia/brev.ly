@@ -71,7 +71,7 @@ export async function getLinks(
       id: link.id,
       url: link.url,
       shortCode: link.shortCode,
-      shortUrl: `${process.env.BASE_URL || "http://localhost:3333"}/${
+      shortUrl: `${process.env.APP_URL || "http://localhost:5173"}/${
         link.shortCode
       }`,
       createdAt: link.createdAt.toISOString(),
