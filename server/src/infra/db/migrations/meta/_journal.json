@@ -8,6 +8,13 @@
       "when": 1767791895802,
       "tag": "0000_even_glorian",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1767810364834,
+      "tag": "0001_public_shatterstar",
+      "breakpoints": true
     }
   ]
 }

@@ -9,6 +9,7 @@ import { fastifyCors } from "@fastify/cors";
 import { createLinkRoute } from "./routes/create-link";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
+import { redirectLinkRoute } from "./routes/redirect-link";
 
 const server = fastify();
 
@@ -46,6 +47,7 @@ server.register(fastifySwaggerUi, {
   routePrefix: "/docs",
 });
 server.register(createLinkRoute);
+server.register(redirectLinkRoute);
 
 server
   .listen({

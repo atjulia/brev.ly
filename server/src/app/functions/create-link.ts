@@ -2,7 +2,7 @@ import { db } from "@/infra/db";
 import { schema } from "@/infra/db/schemas";
 import { z } from "zod";
 import { InvalidInput } from "./errors/invalid-input";
-import { Either, makeLeft, makeRight } from "@/infra/shared /either";
+import { Either, makeLeft, makeRight } from "@/infra/shared/either";
 
 const createLinkInput = z.object({
   url: z.string(),
