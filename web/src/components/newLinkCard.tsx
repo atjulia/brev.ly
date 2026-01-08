@@ -3,7 +3,11 @@ import { InputUrl } from './ui/inputUrl'
 import { InputAlias } from './ui/inputAlias'
 import { useLinks } from '../store/create'
 
-export function NewLinkCard() {
+interface HistoryCardProps {
+  className?: string
+}
+
+export function NewLinkCard({ className = '' }: HistoryCardProps) {
   const [url, setUrl] = useState('')
   const [alias, setAlias] = useState('')
   const [errors, setErrors] = useState<{
@@ -15,8 +19,12 @@ export function NewLinkCard() {
 
   const isValidUrl = (value: string) => {
     try {
-      new URL(value)
-      return true
+      const url = new URL(value)
+
+      return (
+        (url.protocol === 'http:' || url.protocol === 'https:') &&
+        Boolean(url.hostname)
+      )
     } catch {
       return false
     }
@@ -54,7 +62,9 @@ export function NewLinkCard() {
   }
 
   return (
-    <div className="bg-gray-100 rounded-lg p-4 sm:p-6 w-full max-w-xl">
+    <div
+      className={`bg-gray-100 rounded-lg p-4 sm:p-6 w-full max-w-xl ${className}`}
+    >
       <div className="mb-6">
         <h2 className="text-xl font-semibold text-gray-700">Novo link</h2>
       </div>

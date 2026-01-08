@@ -1,6 +1,7 @@
 import HistoryCard from './components/historyCard'
 import { NewLinkCard } from './components/newLinkCard'
 import Logo from './assets/Logo.svg'
+import { ToastContainer } from 'react-toastify'
 
 export function App() {
   return (
@@ -18,6 +19,7 @@ export function App() {
           <HistoryCard />
         </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }

@@ -17,7 +17,6 @@ export function InputUrl({ value, onChange, error }: InputUrlProps) {
       </label>
 
       <input
-        type="url"
         id="url"
         value={value}
         onChange={e => onChange(e.target.value)}

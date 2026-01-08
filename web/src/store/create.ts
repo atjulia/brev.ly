@@ -4,6 +4,8 @@ import { immer } from 'zustand/middleware/immer'
 import { createLink } from '../http/create-link'
 import { CanceledError } from 'axios'
 import { useShallow } from 'zustand/shallow'
+import { AxiosError } from 'axios'
+import { toast } from 'react-toastify'
 
 export type Link = {
   id: string
@@ -64,6 +66,7 @@ export const useLinks = create<LinkState, [['zustand/immer', never]]>(
           url: link.url,
           alias: link.alias,
         })
+        toast.success('Link criado com sucesso.')
 
         updateLink(linkId, {
           status: 'success',
@@ -73,17 +76,23 @@ export const useLinks = create<LinkState, [['zustand/immer', never]]>(
         })
       } catch (err) {
         if (err instanceof CanceledError) {
-          updateLink(linkId, {
-            status: 'canceled',
-          })
-
+          updateLink(linkId, { status: 'canceled' })
           return
+        }
+
+        let message = 'Erro ao criar link'
+
+        if (err instanceof AxiosError) {
+          message = err.response?.data?.message ?? message
+          toast.error(message)
+        } else if (err instanceof Error) {
+          message = err.message
+          toast.error(message)
         }
 
         updateLink(linkId, {
           status: 'error',
-          errorMessage:
-            err instanceof Error ? err.message : 'Erro desconhecido',
+          errorMessage: message,
         })
       }
     }
