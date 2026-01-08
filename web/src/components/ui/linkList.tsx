@@ -53,9 +53,14 @@ export function LinkList({ links, onLinkDeleted }: LinkListProps) {
           <div key={link.id} className="p-2 rounded-md">
             <div className="flex justify-between space-y-1">
               <div>
-                <p className="text-sm font-medium text-primary truncate">
+                <a
+                  href={link.shortUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium text-primary truncate hover:underline cursor-pointer"
+                >
                   {link.shortUrl}
-                </p>
+                </a>
                 <p className="text-xs text-gray-500 truncate">{link.url}</p>
               </div>
 
