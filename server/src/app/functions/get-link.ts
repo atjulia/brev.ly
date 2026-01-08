@@ -22,7 +22,7 @@ interface Link {
   shortCode: string;
   shortUrl: string;
   createdAt: string;
-  clickCount?: number;
+  accessCount?: number;
 }
 
 interface GetLinksResponse {
@@ -61,6 +61,7 @@ export async function getLinks(
         url: schema.links.url,
         shortCode: schema.links.shortCode,
         createdAt: schema.links.createdAt,
+        accessCount: schema.links.accessCount,
       })
       .from(schema.links)
       .orderBy(desc(schema.links.createdAt))
@@ -75,7 +76,7 @@ export async function getLinks(
         link.shortCode
       }`,
       createdAt: link.createdAt.toISOString(),
-      clickCount: 0, // TODO: Implementar contagem de cliques
+      accessCount: link.accessCount,
     }));
 
     return makeRight({

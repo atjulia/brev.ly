@@ -22,7 +22,7 @@ export const getLinksRoute: FastifyPluginAsyncZod = async (server) => {
                 shortCode: z.string(),
                 shortUrl: z.string(),
                 createdAt: z.string(),
-                clickCount: z.number().optional(),
+                accessCount: z.number().optional(),
               })
             ),
             pagination: z.object({

@@ -13,7 +13,7 @@ interface Link {
   shortCode: string
   shortUrl: string
   createdAt: string
-  clickCount?: number
+  accessCount?: number
 }
 
 export function HistoryCard({ className = '' }: HistoryCardProps) {

@@ -8,7 +8,7 @@ interface Link {
   shortCode: string
   shortUrl: string
   createdAt: string
-  clickCount?: number
+  accessCount?: number
 }
 
 interface LinkListProps {
@@ -66,8 +66,8 @@ export function LinkList({ links, onLinkDeleted }: LinkListProps) {
 
               <div className="flex items-center space-x-2">
                 <div className=" items-center text-xs text-gray-400">
-                  {link.clickCount !== undefined && (
-                    <span>{link.clickCount} acessos</span>
+                  {link.accessCount !== undefined && (
+                    <span>{link.accessCount} acessos</span>
                   )}
                 </div>
                 <button
