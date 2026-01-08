@@ -15,7 +15,7 @@ interface CreateLinkResponse {
 
 export async function createLink({ url, alias }: CreateLinkParams) {
   const response = await axios.post<CreateLinkResponse>(
-    'http://localhost:3333/links',
+    `${import.meta.env.VITE_BACKEND_URL}/links`,
     {
       url,
       alias,

@@ -29,7 +29,7 @@ export async function getLinks(options: GetLinksOptions = {}) {
   const { page = 1, limit = 10, signal } = options
 
   const response = await axios.get<GetLinksResponse>(
-    'http://localhost:3333/links',
+    `${import.meta.env.VITE_BACKEND_URL}/links`,
     {
       params: { page, limit },
       headers: {

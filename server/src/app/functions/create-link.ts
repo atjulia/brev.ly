@@ -53,9 +53,7 @@ export async function createLink(
   return makeRight({
     id: createdLink.id,
     originalUrl: createdLink.url,
-    shortUrl: `${process.env.BASE_URL || "http://localhost:3333"}/${
-      createdLink.shortCode
-    }`,
+    shortUrl: `${process.env.BASE_URL}/${createdLink.shortCode}`,
     alias: createdLink.shortCode,
     createdAt: createdLink.createdAt.toISOString(),
   });
