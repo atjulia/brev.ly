@@ -57,11 +57,13 @@ export function LinkList({ links, onLinkDeleted }: LinkListProps) {
                   href={link.shortUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-medium text-primary truncate hover:underline cursor-pointer"
+                  className="text-sm font-medium text-primary truncate hover:underline cursor-pointer block"
                 >
                   {link.shortUrl}
                 </a>
-                <p className="text-xs text-gray-500 truncate">{link.url}</p>
+                <p className="text-xs text-gray-500 truncate max-w-[200px] sm:max-w-[300px]">
+                  {link.url}
+                </p>
               </div>
 
               <div className="flex items-center space-x-2">
