@@ -7,8 +7,8 @@ export function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/redirect" element={<Redirect />} />
       <Route path="/not-found" element={<NotFound />} />
+      <Route path="/:code" element={<Redirect />} />
     </Routes>
   )
 }

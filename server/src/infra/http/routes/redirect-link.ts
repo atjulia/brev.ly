@@ -5,7 +5,7 @@ import z from "zod";
 
 export const redirectLinkRoute: FastifyPluginAsyncZod = async (server) => {
   server.get(
-    "/:shortCode",
+    "/resolve/:shortCode",
     {
       schema: {
         summary: "Redirect to original URL",
@@ -13,7 +13,9 @@ export const redirectLinkRoute: FastifyPluginAsyncZod = async (server) => {
           shortCode: z.string().min(1),
         }),
         response: {
-          301: z.null(),
+          200: z.object({
+            url: z.string().url(),
+          }),
           404: z.object({
             message: z.string(),
           }),
@@ -26,14 +28,16 @@ export const redirectLinkRoute: FastifyPluginAsyncZod = async (server) => {
       });
 
       if (isRight(result)) {
-        return reply.redirect(result.right.originalUrl, 301);
+        return reply
+          .type("application/json")
+          .status(200)
+          .send({ url: result.right.originalUrl });
       }
 
       const error = unwrapEither(result);
 
-      switch (error.constructor.name) {
-        case "LinkNotFound":
-          return reply.status(404).send({ message: error.message });
+      if (error.constructor.name === "LinkNotFound") {
+        return reply.status(404).send({ message: error.message });
       }
     }
   );
