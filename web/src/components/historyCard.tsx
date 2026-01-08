@@ -69,7 +69,7 @@ export function HistoryCard({ className = '' }: HistoryCardProps) {
             Carregando links...
           </p>
         ) : (
-          <LinkList links={links} />
+          <LinkList links={links} onLinkDeleted={fetchLinks} />
         )}
       </div>
     </div>
