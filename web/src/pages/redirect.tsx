@@ -25,7 +25,7 @@ export function Redirect() {
           window.location.href = url
         }, 800)
       } catch (err) {
-        console.log('Redirection error:', err)
+        console.error('Redirection error:', err)
         navigate('/not-found', { replace: true })
       }
     }

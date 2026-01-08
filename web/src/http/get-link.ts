@@ -38,7 +38,6 @@ export async function getLinks(options: GetLinksOptions = {}) {
       signal,
     }
   )
-  console.log('response.data', response.data)
 
   return response.data
 }

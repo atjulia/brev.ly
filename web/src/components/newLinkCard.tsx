@@ -66,7 +66,7 @@ export function NewLinkCard({ className = '' }: HistoryCardProps) {
       className={`bg-gray-100 rounded-lg p-4 sm:p-6 w-full max-w-xl ${className}`}
     >
       <div className="mb-6">
-        <h2 className="text-xl font-semibold text-gray-700">Novo link</h2>
+        <h2 className="text-xl font-semibold text-gray-600">Novo link</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">

@@ -15,7 +15,7 @@ export function InputAlias({
   error,
 }: InputAliasProps) {
   const prefixWidth = useMemo(() => {
-    return `${prefix.length * 8 + 12}px`
+    return `${prefix.length * 7.5}px`
   }, [prefix])
 
   return (
