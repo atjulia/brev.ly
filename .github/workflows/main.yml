@@ -26,6 +26,6 @@ jobs:
       - name: Build and push the image to AWS ECR
         id: build-push-image
         run: |
-          docker build -t brevy-server:v3 .
-          docker tag brevy-server:v3 220065406166.dkr.ecr.us-east-2.amazonaws.com/projects/brevy:v3
+          docker build -t server:v3 ./server
+          docker tag server:v3 220065406166.dkr.ecr.us-east-2.amazonaws.com/projects/brevy:v3
           docker push 220065406166.dkr.ecr.us-east-2.amazonaws.com/projects/brevy:v3
