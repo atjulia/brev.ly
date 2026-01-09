@@ -11,9 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
+        id: checkout
         uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
+        id: configure-aws-credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -21,6 +23,7 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
 
       - name: Login to AWS ECR
+        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Generate tag
@@ -35,4 +38,4 @@ jobs:
           context: ./server
           push: true
           tags: |
-            ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ steps.generate-tag.outputs.sha }}
+            ${{steps.login-ecr.outputs.registry}}/${{ vars.ECR_REPOSITORY }}:${{ steps.generate-tag.outputs.sha }}
