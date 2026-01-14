@@ -35,7 +35,6 @@ npm run dev
 A aplicação ficará disponível em:
 `http://localhost:5173`
 
----
 
 ## ▶️ Rodando o Backend (`server`)
 
@@ -50,7 +49,6 @@ npm run dev
 Servidor disponível em:
 `http://localhost:3333`
 
----
 
 ### Com Docker
 
@@ -59,3 +57,12 @@ cd server
 docker build -t brevy-server .
 docker run -p 3333:3333 brevy-server
 ```
+
+---
+
+## 🚀 Demonstração do projeto
+![Brevy.ly](https://github.com/user-attachments/assets/a8cf6e5d-9b0e-4364-9064-e25bf7350a56)
+
+![Brevy.ly redirect](https://github.com/user-attachments/assets/c78f4303-33b0-44c4-aa63-adffc0891935)
+
+
