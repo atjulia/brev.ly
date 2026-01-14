@@ -17,14 +17,29 @@ export function NewLinkCard({ className = '' }: HistoryCardProps) {
 
   const { addLink } = useLinks()
 
-  const isValidUrl = (value: string) => {
-    try {
-      const url = new URL(value)
+  const isValidUrl = (value: string): boolean => {
+    if (!value) return false
 
-      return (
-        (url.protocol === 'http:' || url.protocol === 'https:') &&
-        Boolean(url.hostname)
-      )
+    const trimmed = value.trim()
+
+    if (trimmed.length > 2048) return false
+
+    if (/\s/.test(trimmed)) return false
+
+    try {
+      const url = new URL(trimmed)
+
+      if (!['http:', 'https:'].includes(url.protocol)) return false
+
+      if (url.hostname === 'localhost') return false
+
+      const isIp = /^(\d{1,3}\.){3}\d{1,3}$/.test(url.hostname)
+
+      if (isIp) return false
+
+      if (!url.hostname.includes('.')) return false
+
+      return true
     } catch {
       return false
     }
@@ -41,7 +56,8 @@ export function NewLinkCard({ className = '' }: HistoryCardProps) {
     if (!url.trim()) {
       newErrors.url = 'O link original é obrigatório'
     } else if (!isValidUrl(url)) {
-      newErrors.url = 'Informe uma URL válida'
+      newErrors.url =
+        'Informe uma URL válida (http ou https, domínio correto e sem espaços'
     }
 
     if (!alias.trim()) {
