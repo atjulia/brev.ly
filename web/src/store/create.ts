@@ -21,7 +21,7 @@ export type Link = {
 
 type LinkState = {
   links: Map<string, Link>
-  addLink: (url: string, alias: string) => void
+  addLink: (url: string, alias: string) => Promise<void>
   cancelLinkCreation: (linkId: string) => void
   retryLinkCreation: (linkId: string) => void
   clearLinks: () => void
@@ -48,10 +48,7 @@ export const useLinks = create<LinkState, [['zustand/immer', never]]>(
 
     async function processLinkCreation(linkId: string) {
       const link = get().links.get(linkId)
-
-      if (!link) {
-        return
-      }
+      if (!link) return
 
       const abortController = new AbortController()
 
@@ -77,23 +74,23 @@ export const useLinks = create<LinkState, [['zustand/immer', never]]>(
       } catch (err) {
         if (err instanceof CanceledError) {
           updateLink(linkId, { status: 'canceled' })
-          return
+          throw err
         }
 
         let message = 'Erro ao criar link'
 
         if (err instanceof AxiosError) {
           message = err.response?.data?.message ?? message
-          toast.error(message)
-        } else if (err instanceof Error) {
-          message = err.message
-          toast.error(message)
         }
 
         updateLink(linkId, {
           status: 'error',
           errorMessage: message,
         })
+
+        toast.error(message)
+
+        throw err
       }
     }
 
@@ -118,7 +115,7 @@ export const useLinks = create<LinkState, [['zustand/immer', never]]>(
       processLinkCreation(linkId)
     }
 
-    function addLink(url: string, alias: string) {
+    async function addLink(url: string, alias: string) {
       const linkId = crypto.randomUUID()
 
       const link: Link = {
@@ -132,7 +129,7 @@ export const useLinks = create<LinkState, [['zustand/immer', never]]>(
         state.links.set(linkId, link)
       })
 
-      processLinkCreation(linkId)
+      await processLinkCreation(linkId)
     }
 
     function clearLinks() {

@@ -30,7 +30,7 @@ export function NewLinkCard({ className = '' }: HistoryCardProps) {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     const newErrors: {
@@ -55,10 +55,17 @@ export function NewLinkCard({ className = '' }: HistoryCardProps) {
 
     setErrors({})
 
-    addLink(url, alias)
+    try {
+      await addLink(url, alias)
 
-    setUrl('')
-    setAlias('')
+      setUrl('')
+      setAlias('')
+    } catch (error) {
+      console.error('Error creating link:', error)
+      setErrors({
+        alias: 'Erro ao salvar o link. Tente novamente.',
+      })
+    }
   }
 
   return (
